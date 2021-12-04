@@ -1,7 +1,10 @@
-﻿using CodeShare.IService;
+﻿using CodeShare.API.AutoFacExtension;
+using CodeShare.IService;
+using CodeShare.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,24 +14,21 @@ namespace CodeShare.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class TokenController : ControllerBase
+    public class TokenController : BaseController
     {
         private readonly ILogger<TokenController> _logger;
-        private readonly ITokenService _tokenService;
 
-        public TokenController(ILogger<TokenController> logger,ITokenService tokenService)
+        public TokenController(ILogger<TokenController> logger)
         {
             _logger = logger;
-            _tokenService = tokenService;
         }
 
-
-        [HttpGet("GetToken")]
-        public IActionResult GetToken() 
+        [HttpGet("GetTokenAsync")]
+        public async Task<IActionResult> GetTokenAsync() 
         {
-            var sadfas = _tokenService.GetToken(Guid.NewGuid());
-            _logger.Log(LogLevel.Information, "GetToken");
-            return Ok("111");
+            var token = await base.GetTokenAsync();
+            _logger.Log(LogLevel.Information, token);
+            return Ok(token);
         }
     }
 }

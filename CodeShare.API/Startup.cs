@@ -34,13 +34,21 @@ namespace CodeShare.API
         {
             services.AddControllers();
 
+            //方式一
             Configuration.GetSection("MongoDBConn").Bind(new MongoDBAppSetting());
             Configuration.GetSection("WeChatConfig").Bind(new WeChatAppSetting());
+
+            //方式二
+            //services.Configure<T>(op => { new T() { } });
+            //方式二 .1
+            //Controllers 里面 IOption<T> _t  注入的方式获取 
+
 
             //AutoFac 提供控制器支持
             //1   替换控制器的替换规则
             //1.1 可以指定控制器让 容器来创建
             services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
+
 
             services.AddSwaggerGen(c =>
             {
