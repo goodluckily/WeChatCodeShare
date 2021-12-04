@@ -3,7 +3,49 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31829.152
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeShare.API", "CodeShare.API\CodeShare.API.csproj", "{ECD052EF-9EF9-4586-BCCB-AE9BEDB37CC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeShare.IService", "CodeShare.IService\CodeShare.IService.csproj", "{69800608-C61F-43F9-8FF4-F072B444E303}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeShare.Service", "CodeShare.Service\CodeShare.Service.csproj", "{09FB5811-85AF-42E6-89F4-AFDC0F9B0F03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeShare.MongoDBRepository", "CodeShare.MongoDBRepository\CodeShare.MongoDBRepository.csproj", "{C6A8CCF7-3FC8-4D3E-A35F-447D1B23C815}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeShare.Model", "CodeShare.Model\CodeShare.Model.csproj", "{E3989CBA-2959-43D3-B9D5-FE700EA8BA2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeShare.Common", "CodeShare.Common\CodeShare.Common.csproj", "{A09478E8-E6A2-41C5-8B07-A741A7148545}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECD052EF-9EF9-4586-BCCB-AE9BEDB37CC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECD052EF-9EF9-4586-BCCB-AE9BEDB37CC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD052EF-9EF9-4586-BCCB-AE9BEDB37CC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECD052EF-9EF9-4586-BCCB-AE9BEDB37CC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69800608-C61F-43F9-8FF4-F072B444E303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69800608-C61F-43F9-8FF4-F072B444E303}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69800608-C61F-43F9-8FF4-F072B444E303}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69800608-C61F-43F9-8FF4-F072B444E303}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09FB5811-85AF-42E6-89F4-AFDC0F9B0F03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09FB5811-85AF-42E6-89F4-AFDC0F9B0F03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09FB5811-85AF-42E6-89F4-AFDC0F9B0F03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09FB5811-85AF-42E6-89F4-AFDC0F9B0F03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6A8CCF7-3FC8-4D3E-A35F-447D1B23C815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6A8CCF7-3FC8-4D3E-A35F-447D1B23C815}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6A8CCF7-3FC8-4D3E-A35F-447D1B23C815}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6A8CCF7-3FC8-4D3E-A35F-447D1B23C815}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3989CBA-2959-43D3-B9D5-FE700EA8BA2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3989CBA-2959-43D3-B9D5-FE700EA8BA2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3989CBA-2959-43D3-B9D5-FE700EA8BA2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3989CBA-2959-43D3-B9D5-FE700EA8BA2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A09478E8-E6A2-41C5-8B07-A741A7148545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A09478E8-E6A2-41C5-8B07-A741A7148545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A09478E8-E6A2-41C5-8B07-A741A7148545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A09478E8-E6A2-41C5-8B07-A741A7148545}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

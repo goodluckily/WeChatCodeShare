@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CodeShare.Common\CodeShare.Common.csproj" />
+    <ProjectReference Include="..\CodeShare.IService\CodeShare.IService.csproj" />
+    <ProjectReference Include="..\CodeShare.Model\CodeShare.Model.csproj" />
+    <ProjectReference Include="..\CodeShare.MongoDBRepository\CodeShare.MongoDBRepository.csproj" />
+  </ItemGroup>
+
+</Project>
