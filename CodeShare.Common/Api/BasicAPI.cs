@@ -132,5 +132,14 @@ namespace CodeShare.Common
             if (!result.IsSuccessStatusCode) return string.Empty;
             return DynamicJson.Parse(result.Content.ReadAsStringAsync().Result);
         }
+
+        //创建草稿
+        public static dynamic CreateDaft(string token,object content)
+        {
+            var url = string.Format("https://api.weixin.qq.com/cgi-bin/draft/add?access_token={0}", token);
+            var client = new HttpClient();
+            var result = client.PostAsync(url, new StringContent(content.ToString())).Result;
+            return DynamicJson.Parse(result.Content.ReadAsStringAsync().Result);
+        }
     }
 }
