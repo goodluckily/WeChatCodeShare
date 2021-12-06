@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -6,6 +6,9 @@
 
   <ItemGroup>
     <PackageReference Include="CSRedisCore" Version="3.6.6" />
+    <PackageReference Include="Senparc.NeuChar" Version="2.0.0" />
+    <PackageReference Include="Senparc.Weixin" Version="6.14.0" />
+    <PackageReference Include="Senparc.Weixin.MP" Version="16.17.1" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,8 @@
-﻿using System.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
@@ -46,6 +50,8 @@ namespace CodeShare.Common
             return enText.ToString();
         }
 
+       
+
         /// <summary>
         /// 获取AccessToken
         /// http://mp.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96access_token
@@ -78,5 +84,53 @@ namespace CodeShare.Common
             return DynamicJson.Parse(result.Content.ReadAsStringAsync().Result);
         }
 
+
+        //创建菜单
+        public static string CreateMenu(string token, string menu_txt)
+        {
+            var url = string.Format("https://api.weixin.qq.com/cgi-bin/menu/create?access_token={0}", token);
+            Stream outstream = null;
+            Stream instream = null;
+            StreamReader sr = null;
+            HttpWebResponse response = null;
+            HttpWebRequest request = null;
+            Encoding encoding = Encoding.UTF8;
+            byte[] data = encoding.GetBytes(menu_txt);
+
+            request = WebRequest.Create(url) as HttpWebRequest;//创建请求
+
+            //写入数据
+            CookieContainer cookieContainer = new CookieContainer();
+            request.CookieContainer = cookieContainer;
+            request.AllowAutoRedirect = true;
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = data.Length;
+            outstream = request.GetRequestStream();
+            outstream.Write(data, 0, data.Length);
+            outstream.Close();
+
+            //读取返回结果
+            response = request.GetResponse() as HttpWebResponse;
+            instream = response.GetResponseStream();
+            sr = new StreamReader(instream, encoding);
+            string content = sr.ReadToEnd();
+
+            //读取操作码
+            JObject my_toke_obj = (JObject)JsonConvert.DeserializeObject(content);
+            string error_code = my_toke_obj["errcode"].ToString();
+
+            return error_code;
+        }
+
+        //删除菜单
+        public static dynamic DeleteMenu(string token)
+        {
+            var url = string.Format("https://api.weixin.qq.com/cgi-bin/menu/delete?access_token={0}", token);
+            var client = new HttpClient();
+            var result = client.GetAsync(url).Result;
+            if (!result.IsSuccessStatusCode) return string.Empty;
+            return DynamicJson.Parse(result.Content.ReadAsStringAsync().Result);
+        }
     }
 }

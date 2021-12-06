@@ -24,9 +24,9 @@ namespace CodeShare.API.Controllers
         }
 
         [HttpGet("GetTokenAsync")]
-        public async Task<IActionResult> GetTokenAsync() 
+        public IActionResult GetTokenAsync() 
         {
-            var token = await base.GetTokenAsync();
+            var token = GetToken();
             _logger.Log(LogLevel.Information, token);
             return Ok(token);
         }

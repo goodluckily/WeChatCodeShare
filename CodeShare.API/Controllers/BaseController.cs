@@ -8,6 +8,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using CodeShare.Model;
 using CodeShare.API.AutoFacExtension;
+using System.IO;
+using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CodeShare.API.Controllers
 {
@@ -18,9 +22,9 @@ namespace CodeShare.API.Controllers
 
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public virtual async Task<string> GetTokenAsync()
+        public virtual  string GetToken()
         {
-            var tokenDB = await _tokenService.GetTokenByType();
+            var tokenDB =  _tokenService.GetTokenByType().Result;
             string tokenStr = string.Empty;
             var locaTime = DateTime.Now;
             if (tokenDB != null)
@@ -35,20 +39,20 @@ namespace CodeShare.API.Controllers
                 tokenDB.Access_Token = result.access_token;
                 tokenDB.Expires_In = result.expires_in;
                 tokenDB.EditDateTime = locaTime.AddMinutes(-10);//10分钟
-                var editToken = await _tokenService.UpdateAsync(tokenDB);
+                var editToken =  _tokenService.UpdateAsync(tokenDB).Result;
                 return tokenDB.Access_Token;
             }
             else
             {
                 var result = GetAccessTokenAndTime();
-                var addToken = await _tokenService.CreateTokenAsync(new Token()
+                var addToken =  _tokenService.CreateTokenAsync(new Token()
                 {
                     WeiChatType = WeiChatEnum.CodeShare,
                     TokenType = TokenEnum.Token,
                     Access_Token = result.access_token,
                     Expires_In = result.expires_in,
                     EditDateTime = locaTime.AddMinutes(-10)//10分钟
-                });
+                }).Result;
                 tokenStr = addToken.Access_Token;
             }
             return tokenStr;
@@ -66,6 +70,21 @@ namespace CodeShare.API.Controllers
         public virtual string GetJsToken()
         {
             return "";
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public  string GetContent(string path)
+        {
+            string json = string.Empty;
+            using (FileStream fs = new FileStream(path, FileMode.Open, System.IO.FileAccess.Read, FileShare.ReadWrite))
+            {
+                UTF8Encoding utf8 = new UTF8Encoding();
+                using (StreamReader sr = new StreamReader(fs, utf8))
+                {
+                    json = sr.ReadToEnd().ToString();
+                }
+            }
+            return json;
         }
     }
 }

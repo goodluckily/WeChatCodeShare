@@ -8,4 +8,8 @@
     <PackageReference Include="MongoDB.Bson" Version="2.14.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CodeShare.Common\CodeShare.Common.csproj" />
+  </ItemGroup>
+
 </Project>
