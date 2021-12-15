@@ -1,11 +1,14 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CodeShare.Common
 {
@@ -29,7 +32,7 @@ namespace CodeShare.Common
         }
 
         /// <summary>
-        /// 返回正确的签名
+        /// 返回正确的签名 https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Access_Overview.html
         /// </summary>
         /// <param name="timestamp"></param>
         /// <param name="nonce"></param>
@@ -133,6 +136,8 @@ namespace CodeShare.Common
             return DynamicJson.Parse(result.Content.ReadAsStringAsync().Result);
         }
 
+
+
         //创建草稿
         public static dynamic CreateDaft(string token,object content)
         {
@@ -140,6 +145,56 @@ namespace CodeShare.Common
             var client = new HttpClient();
             var result = client.PostAsync(url, new StringContent(content.ToString())).Result;
             return DynamicJson.Parse(result.Content.ReadAsStringAsync().Result);
+        }
+
+
+        //Post 请求
+        public static dynamic PostString(string requestUrl, string token, object content)
+        {
+            var url = string.Format(requestUrl, token);
+            var client = new HttpClient();
+            var result = client.PostAsync(url, new StringContent(content.ToString())).Result;
+            return DynamicJson.Parse(result.Content.ReadAsStringAsync().Result);
+        }
+
+
+        public static async Task<string> UploadStringWithToken(string url, string accessToken, string fieldName, string fileName, Stream fileStream)
+        {
+            var content = BuildUploadContent(fieldName, fileName, fileStream);
+
+            url = string.Format(url, accessToken);
+            var http = new HttpClient();
+            try
+            {
+                var response = await http.PostAsync(url, content).ConfigureAwait(false);
+                return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+       
+
+        private static MultipartFormDataContent BuildUploadContent(string fieldName, string fileName, Stream fileStream)
+        {
+            var boundary = Guid.NewGuid().ToString("n");
+            var content = new MultipartFormDataContent(boundary);
+
+            if (!string.IsNullOrWhiteSpace(fieldName))
+                fieldName = '"' + fieldName + '"';
+
+            if (!string.IsNullOrWhiteSpace(fileName))
+                fileName = '"' + fileName + '"';
+
+            content.Add(new StreamContent(fileStream), fieldName, fileName);
+
+            //微信服务器不接受引号括起来的 boundary..
+            content.Headers.Remove("Content-Type");
+            content.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary);
+            return content;
         }
     }
 }
