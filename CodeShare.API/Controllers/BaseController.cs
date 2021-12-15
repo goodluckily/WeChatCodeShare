@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 
 namespace CodeShare.API.Controllers
 {
-    public class BaseController : ControllerBase
+    public class BaseController : Controller
     {
         [CustomProperty]
         public ITokenService _tokenService { get; init; }
@@ -61,6 +61,11 @@ namespace CodeShare.API.Controllers
         private (string access_token, double expires_in) GetAccessTokenAndTime()
         {
             var accessDynamic = BasicAPI.GetAccessToken(WeChatAppSetting.Appid, WeChatAppSetting.AppSecret);
+            var val = (string)accessDynamic.ToString();
+            if (val.Contains("errcode")) 
+            {
+                throw new Exception(val);
+            }
             var access_token = accessDynamic.access_token;
             var expires_in = accessDynamic.expires_in;
             return (access_token, expires_in);

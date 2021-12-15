@@ -12,9 +12,12 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -48,6 +51,21 @@ namespace CodeShare.API
             //1   替换控制器的替换规则
             //1.1 可以指定控制器让 容器来创建
             services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
+
+
+            var retryPolicy = Policy.HandleResult<HttpResponseMessage>(message =>
+            {
+                var contextC = message.Content.ReadAsStringAsync().Result;
+                return (message.StatusCode == HttpStatusCode.InternalServerError || message.StatusCode == HttpStatusCode.RequestTimeout);
+            }).RetryAsync(3, (res, Index) =>
+            {
+                Console.WriteLine($"执行错误，异常行为：{res?.Result}");
+                Console.WriteLine($"第{Index}次重试");
+            });
+            services.AddHttpClient("wechatClient", op =>
+             {
+                 op.BaseAddress = new Uri("https://api.weixin.qq.com/");
+             }).AddPolicyHandler(retryPolicy);
 
 
             services.AddSwaggerGen(c =>
