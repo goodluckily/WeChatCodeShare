@@ -43,7 +43,7 @@ namespace CodeShare.API.Controllers
         }
 
         /// <summary>
-        /// 获取 微信服务器地址
+        /// 获取 微信服务器Ip地址
         /// </summary>
         /// <returns></returns>
         [HttpGet("GetWeiChatIp")]
@@ -52,6 +52,21 @@ namespace CodeShare.API.Controllers
             var token = GetToken();
             var client = _httpClientFactory.CreateClient("wechatClient");
             var reponse = await client.GetAsync($"cgi-bin/get_api_domain_ip?access_token={token}");
+            var result = await reponse.Content.ReadAsStringAsync();
+            return Ok(result);
+        }
+
+
+        /// <summary>
+        /// 获取 微信订阅模版列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetPubTemplateTitleList")]
+        public async Task<IActionResult> GetPubTemplateTitleList()
+        {
+            var token = GetToken();
+            var client = _httpClientFactory.CreateClient("wechatClient");
+            var reponse = await client.GetAsync($"wxaapi/newtmpl/getpubtemplatetitles?access_token={token}");
             var result = await reponse.Content.ReadAsStringAsync();
             return Ok(result);
         }
